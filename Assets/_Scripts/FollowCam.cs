@@ -14,7 +14,7 @@ public class FollowCam : MonoBehaviour{
     public float camZ;
 
     void Awake(){
-        camZ = this. transform.position.z;
+        camZ = this.transform.position.z;
     }
 
     void FixedUpdate(){
@@ -26,11 +26,12 @@ public class FollowCam : MonoBehaviour{
             if ((poiRigid != null) && poiRigid.IsSleeping()){
                 POI = null;
             }
-        }
-
-        if(POI != null){
             destination = POI.transform.position;
         }
+
+        // if(POI != null){
+        //     destination = POI.transform.position;
+        // }
     //    if(POI == null) return;
 
     //    Vector3 destination = POI.transform.position;
