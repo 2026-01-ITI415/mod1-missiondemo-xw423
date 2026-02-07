@@ -471,6 +471,7 @@ GameObject:
   - component: {fileID: 792234107}
   - component: {fileID: 792234106}
   - component: {fileID: 792234109}
+  - component: {fileID: 792234110}
   m_Layer: 0
   m_Name: _MainCamera
   m_TagString: MainCamera
@@ -567,6 +568,31 @@ MonoBehaviour:
   easing: 0.05
   minXY: {x: 0, y: 0}
   camZ: 0
+--- !u!114 &792234110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 792234105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8a1244f2d7ca33ac8a79760f230842b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MissionDemolition
+  uitLevel: {fileID: 377138864}
+  uitShots: {fileID: 1063396622}
+  castlePos: {x: 50, y: -9.5, z: 0}
+  castles:
+  - {fileID: 1714873935392641797, guid: 628813f436dc6354596b2ff03515386f, type: 3}
+  - {fileID: 1714873935392641797, guid: 453f6924a3ed4452aa1a4c23cc5aa66c, type: 3}
+  - {fileID: 1714873935392641797, guid: 0bf84e6cd16a1198f9b7654bea696dcd, type: 3}
+  level: 0
+  levelMax: 0
+  shotsTaken: 0
+  castle: {fileID: 0}
+  mode: 0
+  showing: Show Sliongshot
 --- !u!1 &1063396620
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,73 +4,74 @@ using UnityEngine;
 
 public class Slingshot : MonoBehaviour{
 
-    [Header("Inscribed")]
-    public GameObject projectilePrefab;
-    public float velocityMult = 10f;
-    public GameObject projLinePrefab;
+	[Header("Inscribed")]
+	public GameObject projectilePrefab;
+	public float velocityMult = 10f;
+	public GameObject projLinePrefab;
 
-    [Header("Dynamic")]
-    public GameObject launchPoint;
-    public Vector3 launchPos;
-    public GameObject projectile;
-    public bool aimingMode;
+	[Header("Dynamic")]
+	public GameObject launchPoint;
+	public Vector3 launchPos;
+	public GameObject projectile;
+	public bool aimingMode;
 
-    void Awake(){
-        Transform launchPointTrans = transform.Find("LaunchPoint");
-        launchPoint = launchPointTrans.gameObject;
-        launchPoint.SetActive(false);
-        launchPos = launchPointTrans.position;
-    }
- 
- void OnMouseEnter(){
-    //print("Slingshot:OnMouseEnter()");
-    launchPoint.SetActive(true);
- }
+	void Awake(){
+		Transform launchPointTrans = transform.Find("LaunchPoint");
+		launchPoint = launchPointTrans.gameObject;
+		launchPoint.SetActive(false);
+		launchPos = launchPointTrans.position;
+	}
 
- void OnMouseExit(){
-    //print("Slingshot:OnMouseExit()");
-    launchPoint.SetActive(false);
- }
+	void OnMouseEnter(){
+		//print("Slingshot:OnMouseEnter()");
+		launchPoint.SetActive(true);
+	}
 
- void OnMouseDown(){
+	void OnMouseExit(){
+		//print("Slingshot:OnMouseExit()");
+		launchPoint.SetActive(false);
+	}
 
-    aimingMode = true;
+	void OnMouseDown(){
 
-    projectile = Instantiate(projectilePrefab) as GameObject;
+		aimingMode = true;
 
-    projectile.transform.position = launchPos;
+		projectile = Instantiate(projectilePrefab) as GameObject;
 
-    projectile.GetComponent<Rigidbody>().isKinematic = true;
- }
- void Update(){
+		projectile.transform.position = launchPos;
 
-    if (!aimingMode) return;
+		projectile.GetComponent<Rigidbody>().isKinematic = true;
+	}
+	void Update(){
 
-    Vector3 mousePos2D = Input.mousePosition;
-    mousePos2D.z = -Camera.main.transform.position.z;
-    Vector3 mousePos3D = Camera.main.ScreenToWorldPoint(mousePos2D);
+		if (!aimingMode) return;
 
-    Vector3 mouseDelta = mousePos3D -launchPos;
+		Vector3 mousePos2D = Input.mousePosition;
+		mousePos2D.z = -Camera.main.transform.position.z;
+		Vector3 mousePos3D = Camera.main.ScreenToWorldPoint(mousePos2D);
 
-    float maxMagnitude = this.GetComponent<SphereCollider>().radius;
-    if (mouseDelta.magnitude > maxMagnitude){
-        mouseDelta.Normalize();
-        mouseDelta*= maxMagnitude;
-    }
+		Vector3 mouseDelta = mousePos3D -launchPos;
 
-    Vector3 projPos = launchPos + mouseDelta;
-    projectile.transform.position = projPos;
+		float maxMagnitude = this.GetComponent<SphereCollider>().radius;
+		if (mouseDelta.magnitude > maxMagnitude){
+			mouseDelta.Normalize();
+			mouseDelta*= maxMagnitude;
+		}
 
-    if(Input.GetMouseButtonUp(0)){
+		Vector3 projPos = launchPos + mouseDelta;
+		projectile.transform.position = projPos;
 
-        aimingMode = false;
-        Rigidbody projRB = projectile.GetComponent<Rigidbody>();
-        projRB.isKinematic = false;
-        projRB.collisionDetectionMode = CollisionDetectionMode.Continuous;
-        projRB.linearVelocity = -mouseDelta * velocityMult;
-        FollowCam.POI = projectile;
-        Instantiate<GameObject>(projLinePrefab, projectile.transform);
-        projectile = null;
-    }
- }
+		if(Input.GetMouseButtonUp(0)){
+
+			aimingMode = false;
+			Rigidbody projRB = projectile.GetComponent<Rigidbody>();
+			projRB.isKinematic = false;
+			projRB.collisionDetectionMode = CollisionDetectionMode.Continuous;
+			projRB.linearVelocity = -mouseDelta * velocityMult;
+			FollowCam.POI = projectile;
+			Instantiate<GameObject>(projLinePrefab, projectile.transform);
+			projectile = null;
+			MissionDemolition.SHOT_FIRED();
+		}
+	}
 }

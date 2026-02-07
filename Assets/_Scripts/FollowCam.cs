@@ -26,12 +26,11 @@ public class FollowCam : MonoBehaviour{
             if ((poiRigid != null) && poiRigid.IsSleeping()){
                 POI = null;
             }
-            destination = POI.transform.position;
         }
 
-        // if(POI != null){
-        //     destination = POI.transform.position;
-        // }
+        if(POI != null){
+            destination = POI.transform.position;
+        }
     //    if(POI == null) return;
 
     //    Vector3 destination = POI.transform.position;
