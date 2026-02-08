@@ -9,9 +9,12 @@ public class MissionDemolition : MonoBehaviour
 {
 	static private MissionDemolition S; // private singleton
 	
+	static public bool gameover = false;
+
 	[Header("Inscribed")]
 	public Text uitLevel; // UIText_Level component
 	public Text uitShots; // UIText_Shots component
+	public Text GameOver; // game over componont
 	public Vector3 castlePos; // place to put castles
 	public GameObject[] castles;
 
@@ -45,12 +48,17 @@ public class MissionDemolition : MonoBehaviour
 		castle = Instantiate<GameObject>( castles[level] );
 		castle.transform.position = castlePos;
 
+		shotsTaken = 0;
+
 		// reset goal
 		Goal.goalMet = false;
 
 		UpdateGUI();
 		
 		mode = GameMode.playing;
+
+		// zoom out to show both
+		FollowCam.SWITCH_VIEW( FollowCam.eView.both );
 	}
 	void UpdateGUI()
 	{
@@ -70,9 +78,16 @@ public class MissionDemolition : MonoBehaviour
 		{
 			// change mode to levelEnd
 			mode = GameMode.levelEnd;
+			// zoom out to show both
+			FollowCam.SWITCH_VIEW(FollowCam.eView.both);
 
 			// start next level in 2 sec
 			Invoke("NextLevel", 2f);
+		}
+		if( !Goal.goalMet && shotsTaken == 3 )
+		{
+			GameOver.text = "Game Over!";
+			gameover = true;
 		}
 	}
 	void NextLevel()

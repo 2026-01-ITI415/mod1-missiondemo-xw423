@@ -23,16 +23,22 @@ public class Slingshot : MonoBehaviour{
 	}
 
 	void OnMouseEnter(){
+		if( MissionDemolition.gameover )
+			return;
 		//print("Slingshot:OnMouseEnter()");
 		launchPoint.SetActive(true);
 	}
 
 	void OnMouseExit(){
+		if( MissionDemolition.gameover )
+			return;
 		//print("Slingshot:OnMouseExit()");
 		launchPoint.SetActive(false);
 	}
 
 	void OnMouseDown(){
+		if( MissionDemolition.gameover )
+			return;
 
 		aimingMode = true;
 
@@ -43,7 +49,8 @@ public class Slingshot : MonoBehaviour{
 		projectile.GetComponent<Rigidbody>().isKinematic = true;
 	}
 	void Update(){
-
+		if( MissionDemolition.gameover )
+			return;
 		if (!aimingMode) return;
 
 		Vector3 mousePos2D = Input.mousePosition;
@@ -68,6 +75,8 @@ public class Slingshot : MonoBehaviour{
 			projRB.isKinematic = false;
 			projRB.collisionDetectionMode = CollisionDetectionMode.Continuous;
 			projRB.linearVelocity = -mouseDelta * velocityMult;
+			// switch to slingshot view immediately before setting POI
+			FollowCam.SWITCH_VIEW( FollowCam.eView.slingshot );
 			FollowCam.POI = projectile;
 			Instantiate<GameObject>(projLinePrefab, projectile.transform);
 			projectile = null;
