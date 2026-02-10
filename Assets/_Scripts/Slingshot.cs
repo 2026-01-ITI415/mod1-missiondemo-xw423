@@ -13,7 +13,8 @@ public class Slingshot : MonoBehaviour{
 	public GameObject launchPoint;
 	public Vector3 launchPos;
 	public GameObject projectile;
-	public bool aimingMode;
+	[SerializeField]
+	private bool aimingMode;
 
 	void Awake(){
 		Transform launchPointTrans = transform.Find("LaunchPoint");
